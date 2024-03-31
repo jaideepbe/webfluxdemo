@@ -4,6 +4,7 @@ import com.jaideep.webfluxdemo.dto.Response;
 import com.jaideep.webfluxdemo.exception.InputValidationException;
 import com.jaideep.webfluxdemo.service.ReactiveMathService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,5 +39,15 @@ public class ReactiveMathValidationController {
                 .cast(Integer.class)
                 .flatMap(i -> this.reactiveMathService.findSquare(input));
     }
+
+    @GetMapping("/square-assignment/{input}")
+    public Mono<ResponseEntity<Response>>  assignment(@PathVariable int input) {
+        return Mono.just(input)
+                .filter(i -> i >= 10 && i <= 20)
+                .flatMap(i-> this.reactiveMathService.findSquare(input))
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.badRequest().build());
+    }
+
 
 }

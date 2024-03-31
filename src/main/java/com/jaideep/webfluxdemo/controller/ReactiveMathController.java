@@ -1,13 +1,11 @@
 package com.jaideep.webfluxdemo.controller;
 
+import com.jaideep.webfluxdemo.dto.MultipleDto;
 import com.jaideep.webfluxdemo.dto.Response;
 import com.jaideep.webfluxdemo.service.ReactiveMathService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -33,5 +31,9 @@ public class ReactiveMathController {
         return reactiveMathService.multiplicationTable(input);
     }
 
+    @PostMapping("/multiply")
+    public Mono<Response> multiply(@RequestBody Mono<MultipleDto> dtoMono) {
+        return reactiveMathService.multiply(dtoMono);
+    }
 
 }
